@@ -21,7 +21,7 @@ import (
 	"github.com/tendermint/go-amino"
 	"github.com/tendermint/tendermint/libs/cli"
 
-	"github.com/ixoworld/bonds/x/bonds/app"
+	"github.com/warmage-sports/peyote/x/peyote/app"
 )
 
 func main() {
@@ -30,7 +30,7 @@ func main() {
 	// Configure cobra to sort commands
 	cobra.EnableCommandSorting = false
 	rootCmd := &cobra.Command{
-		Use:   "bondscli",
+		Use:   "peycli",
 		Short: "Bonds module app command line Interface",
 	}
 
