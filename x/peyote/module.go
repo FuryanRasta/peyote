@@ -1,4 +1,4 @@
-package bonds
+package peyote
 
 import (
 	"encoding/json"
@@ -6,15 +6,15 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	sim "github.com/cosmos/cosmos-sdk/x/simulation"
 	"github.com/gorilla/mux"
-	"github.com/ixoworld/bonds/x/bonds/internal/keeper"
-	"github.com/ixoworld/bonds/x/bonds/simulation"
+	"github.com/warmage-sports/peyote/x/peyote/internal/keeper"
+	"github.com/warmage-sports/peyote/x/peyote/simulation"
 	"github.com/spf13/cobra"
 	"math/rand"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/ixoworld/bonds/x/bonds/client/cli"
-	"github.com/ixoworld/bonds/x/bonds/client/rest"
+	"github.com/warmage-sports/peyote/x/peyote/client/cli"
+	"github.com/warmage-sports/peyote/x/peyote/client/rest"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -138,7 +138,7 @@ func (AppModule) ProposalContents(_ module.SimulationState) []sim.WeightedPropos
 	return nil
 }
 
-// RandomizedParams doesn't create any randomized bonds param changes for the simulator.
+// RandomizedParams doesn't create any randomized peyote param changes for the simulator.
 //noinspection GoUnusedParameter
 func (AppModule) RandomizedParams(r *rand.Rand) []sim.ParamChange {
 	return nil

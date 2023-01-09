@@ -2,8 +2,8 @@ package keeper_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds/internal/keeper"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/keeper"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"testing"
@@ -26,7 +26,7 @@ func TestQueryBonds(t *testing.T) {
 	req := abci.RequestQuery{}
 	var queryResult types.QueryBonds
 
-	// Initially no errors and zero bonds
+	// Initially no errors and zero peyote
 	res, err := querier(ctx, []string{keeper.QueryBonds}, req)
 	require.NoError(t, err)
 	require.NotNil(t, res)

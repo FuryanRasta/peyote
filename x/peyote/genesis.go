@@ -1,12 +1,12 @@
-package bonds
+package peyote
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 )
 
 func InitGenesis(ctx sdk.Context, keeper Keeper, data GenesisState) {
-	// Initialise bonds
+	// Initialise peyote
 	for _, b := range data.Bonds {
 		keeper.SetBond(ctx, b.Token, b)
 	}
@@ -21,14 +21,14 @@ func InitGenesis(ctx sdk.Context, keeper Keeper, data GenesisState) {
 }
 
 func ExportGenesis(ctx sdk.Context, k Keeper) GenesisState {
-	// Export bonds and batches
-	var bonds []types.Bond
+	// Export peyote and batches
+	var peyote []types.Bond
 	var batches []types.Batch
 	iterator := k.GetBondIterator(ctx)
 	for ; iterator.Valid(); iterator.Next() {
 		bond := k.MustGetBondByKey(ctx, iterator.Key())
 		batch := k.MustGetBatch(ctx, bond.Token)
-		bonds = append(bonds, bond)
+		peyote = append(peyote, bond)
 		batches = append(batches, batch)
 	}
 
@@ -36,7 +36,7 @@ func ExportGenesis(ctx sdk.Context, k Keeper) GenesisState {
 	params := k.GetParams(ctx)
 
 	return GenesisState{
-		Bonds:   bonds,
+		Bonds:   peyote,
 		Batches: batches,
 		Params:  params,
 	}

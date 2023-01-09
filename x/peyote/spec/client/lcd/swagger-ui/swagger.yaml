@@ -11,23 +11,23 @@ schemes:
   - http
 host: localhost:1317
 paths:
-  /bonds:
+  /peyote:
     get:
-      description: List of all currently active bonds
-      summary: List of all active bonds
+      description: List of all currently active peyote
+      summary: List of all active peyote
       tags:
         - Bonds Module
       produces:
         - application/json
       responses:
         200:
-          description: List of bonds by token name
+          description: List of peyote by token name
           schema:
             type: array
             items:
               type: string
               example: abc
-  /bonds/{bond_token}:
+  /peyote/{bond_token}:
     get:
       description: Information about the bond
       summary: The properties of the bond
@@ -47,7 +47,7 @@ paths:
           description: Bond details
           schema:
             $ref: "#/definitions/BondQueryResult"
-  /bonds/{bond_token}/batch:
+  /peyote/{bond_token}/batch:
     get:
       description: Bond's current batch with current list of buy and sell orders
       summary: Current orders batch of the bond
@@ -67,7 +67,7 @@ paths:
           description: Current batch
           schema:
             $ref: "#/definitions/BatchQueryResult"
-  /bonds/{bond_token}/last_batch:
+  /peyote/{bond_token}/last_batch:
     get:
       description: Bond's last batch with last list of buy and sell orders
       summary: Last orders batch of the bond
@@ -87,7 +87,7 @@ paths:
           description: Last batch
           schema:
             $ref: "#/definitions/BatchQueryResult"
-  /bonds/{bond_token}/current_price:
+  /peyote/{bond_token}/current_price:
     get:
       description: Computes the current price(s) of the bond
       summary: Current price(s) of the bond
@@ -107,7 +107,7 @@ paths:
           description: Current price(s) of the bond
           schema:
             $ref: "#/definitions/ResCoins"
-  /bonds/{bond_token}/current_reserve:
+  /peyote/{bond_token}/current_reserve:
     get:
       description: Obtains the reserve pool balance(s) of the bond
       summary: Current balance(s) of the reserve pool
@@ -127,7 +127,7 @@ paths:
           description: Current balance(s) of the reserve pool
           schema:
             $ref: "#/definitions/ResCoins"
-  /bonds/{bond_token}/price/{bond_amount}:
+  /peyote/{bond_token}/price/{bond_amount}:
     get:
       description: Computes the price(s) of the bond at a specific amount of supply
       summary: Price(s) of the bond at a specific supply
@@ -153,7 +153,7 @@ paths:
           description: Price(s) to buy the tokens
           schema:
             $ref: "#/definitions/ResCoins"
-  /bonds/{bond_token}/buy_price/{bond_amount}:
+  /peyote/{bond_token}/buy_price/{bond_amount}:
     get:
       description: Computes the price(s) to buy an amount of tokens of the bond
       summary: Price(s) of buying an amount of tokens of the bond
@@ -179,7 +179,7 @@ paths:
           description: Price(s) to buy the tokens
           schema:
             $ref: "#/definitions/BuyPriceQueryResult"
-  /bonds/{bond_token}/sell_return/{bond_amount}:
+  /peyote/{bond_token}/sell_return/{bond_amount}:
     get:
       description: Computes the return on selling an amount of tokens of the bond
       summary: Return on selling an amount of tokens of the bond
@@ -205,7 +205,7 @@ paths:
           description: Return when selling the tokens
           schema:
             $ref: "#/definitions/SellReturnQueryResult"
-  /bonds/{bond_token}/swap_return/{from_token_with_amount}/{to_token}:
+  /peyote/{bond_token}/swap_return/{from_token_with_amount}/{to_token}:
     get:
       description: Computes the return on an amount of tokens by swapping
       summary: Return on an amount of tokens by swapping
@@ -237,7 +237,7 @@ paths:
           description: Return on an amount of tokens by swapping
           schema:
             $ref: "#/definitions/SwapReturnQueryResult"
-  /bonds/create_bond:
+  /peyote/create_bond:
     post:
       description: Create a bond
       summary: Create a bond
@@ -253,7 +253,7 @@ paths:
           description: The parameters of the bond and corresponding bonding curve
           schema:
             $ref: "#/definitions/BondCreation"
-  /bonds/edit_bond:
+  /peyote/edit_bond:
     post:
       description: Edit a bond
       summary: Edit a bond
@@ -269,7 +269,7 @@ paths:
           description: The fields to be edited and the list of the bond's signers
           schema:
             $ref: "#/definitions/BondEdit"
-  /bonds/buy:
+  /peyote/buy:
     post:
       description: Buy tokens from a bond
       summary: Buy from a bond. In the case of a swapper bond, this adds liquidity.
@@ -297,7 +297,7 @@ paths:
               max_prices:
                 type: string
                 example: 1000res1,1000res2,...
-  /bonds/sell:
+  /peyote/sell:
     post:
       description: Sell tokens from a bond
       summary: Sell from a bond. In the case of a swapper bond, this adds liquidity.
@@ -322,7 +322,7 @@ paths:
               bond_amount:
                 type: string
                 example: 100
-  /bonds/swap:
+  /peyote/swap:
     post:
       description: Perform a swap between two tokens using a swapper bond
       summary: Swap two tokens
@@ -350,7 +350,7 @@ paths:
               to_token:
                 type: string
                 example: res2
-  /bonds/make_outcome_payment:
+  /peyote/make_outcome_payment:
     post:
       description: Make an outcome payment to a bond to progress it to SETTLE state
       summary: Make outcome payment
@@ -372,7 +372,7 @@ paths:
               bond_token:
                 type: string
                 example: abc
-  /bonds/withdraw_share:
+  /peyote/withdraw_share:
     post:
       description: As a bond token holder, withdraw the reserve tokens share from a bond in SETTLE state
       summary: Withdraw share from bond

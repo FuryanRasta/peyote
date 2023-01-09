@@ -1,9 +1,9 @@
-package bonds_test
+package peyote_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 func TestInitAndExportGenesis(t *testing.T) {
 	app, ctx := createTestApp(false)
-	genesisState := bonds.DefaultGenesisState()
+	genesisState := peyote.DefaultGenesisState()
 	require.Equal(t, 0, len(genesisState.Bonds))
 	require.Equal(t, 0, len(genesisState.Batches))
 
@@ -52,10 +52,10 @@ func TestInitAndExportGenesis(t *testing.T) {
 		allowSell, signers, batchBlocks, outcomePayment, state)
 	batch := types.NewBatch(bond.Token, bond.BatchBlocks)
 
-	genesisState = bonds.NewGenesisState(
+	genesisState = peyote.NewGenesisState(
 		[]types.Bond{bond}, []types.Batch{batch}, types.DefaultParams())
 
-	bonds.InitGenesis(ctx, app.BondsKeeper, genesisState)
+	peyote.InitGenesis(ctx, app.BondsKeeper, genesisState)
 
 	returnedBond := app.BondsKeeper.MustGetBond(ctx, token)
 	require.EqualValues(t, bond, returnedBond)
@@ -63,7 +63,7 @@ func TestInitAndExportGenesis(t *testing.T) {
 	returnedBatch := app.BondsKeeper.MustGetBatch(ctx, token)
 	require.Equal(t, batch, returnedBatch)
 
-	exportedGenesisState := bonds.ExportGenesis(ctx, app.BondsKeeper)
+	exportedGenesisState := peyote.ExportGenesis(ctx, app.BondsKeeper)
 	require.Equal(t, genesisState.Bonds, exportedGenesisState.Bonds)
 	require.Equal(t, genesisState.Batches, exportedGenesisState.Batches)
 }

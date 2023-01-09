@@ -1,6 +1,6 @@
 # Events
 
-The bonds module emits the following events:
+The peyote module emits the following events:
 
 ## EndBlocker
 
@@ -44,7 +44,7 @@ The bonds module emits the following events:
 | create\_bond | signers \[2\] | {signers} |
 | create\_bond | batch\_blocks | {batchBlocks} |
 | create\_bond | state | {state} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | create\_bond |
 | message | sender | {senderAddress} |
 
@@ -62,7 +62,7 @@ The bonds module emits the following events:
 | edit\_bond | order\_quantity\_limits | {orderQuantityLimits} |
 | edit\_bond | sanity\_rate | {sanityRate} |
 | edit\_bond | sanity\_margin\_percentage | {sanityMarginPercentage} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | edit\_bond |
 | message | sender | {senderAddress} |
 
@@ -75,7 +75,7 @@ The bonds module emits the following events:
 | init\_swapper | bond | {token} |
 | init\_swapper | amount | {amount} |
 | init\_swapper | charged\_prices | {chargedPrices} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | buy |
 | message | sender | {senderAddress} |
 
@@ -90,7 +90,7 @@ The bonds module emits the following events:
 | order\_cancel | order\_type | {orderType} |
 | order\_cancel | address | {address} |
 | order\_cancel | cancel\_reason | {cancelReason} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | buy |
 | message | sender | {senderAddress} |
 
@@ -100,7 +100,7 @@ The bonds module emits the following events:
 | :--- | :--- | :--- |
 | sell | bond | {token} |
 | sell | amount | {amount} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | buy |
 | message | sender | {senderAddress} |
 
@@ -112,7 +112,7 @@ The bonds module emits the following events:
 | swap | amount | {amount} |
 | swap | from\_token | {fromToken} |
 | swap | to\_token | {toToken} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | swap |
 | message | sender | {senderAddress} |
 
@@ -122,7 +122,7 @@ The bonds module emits the following events:
 | :--- | :--- | :--- |
 | make\_outcome\_payment | bond | {token} |
 | make\_outcome\_payment | address | {senderAddress} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | make\_outcome\_payment |
 | message | sender | {senderAddress} |
 
@@ -133,7 +133,7 @@ The bonds module emits the following events:
 | withdraw\_share | bond | {token} |
 | withdraw\_share | address | {recipientAddress} |
 | withdraw\_share | amount | {reserveOwed} |
-| message | module | bonds |
+| message | module | peyote |
 | message | action | withdraw\_share |
 | message | sender | {recipientAddress} |
 

@@ -3,27 +3,27 @@
 PASSWORD="12345678"
 GAS_PRICES="0.025stake"
 
-bondsd init local --chain-id bondschain-1
+peyote init local --chain-id peyotechain-1
 
-bondscli keys add miguel --ledger
-yes $PASSWORD | bondscli keys add francesco
-yes $PASSWORD | bondscli keys add shaun
-yes $PASSWORD | bondscli keys add reserve
-yes $PASSWORD | bondscli keys add fee
+peycli keys add miguel --ledger
+yes $PASSWORD | peycli keys add francesco
+yes $PASSWORD | peycli keys add shaun
+yes $PASSWORD | peycli keys add reserve
+yes $PASSWORD | peycli keys add fee
 
-bondsd add-genesis-account "$(bondscli keys show miguel -a)" 100000000stake,1000000res,1000000rez
-bondsd add-genesis-account "$(bondscli keys show francesco -a)" 100000000stake,1000000res,1000000rez
-bondsd add-genesis-account "$(bondscli keys show shaun -a)" 100000000stake,1000000res,1000000rez
+peyote add-genesis-account "$(peycli keys show miguel -a)" 100000000stake,1000000res,1000000rez
+peyote add-genesis-account "$(peycli keys show francesco -a)" 100000000stake,1000000res,1000000rez
+peyote add-genesis-account "$(peycli keys show shaun -a)" 100000000stake,1000000res,1000000rez
 
-bondscli config chain-id bondschain-1
-bondscli config output json
-bondscli config indent true
-bondscli config trust-node true
+peycli config chain-id peyotechain-1
+peycli config output json
+peycli config indent true
+peycli config trust-node true
 
-echo "$PASSWORD" | bondsd gentx --name miguel
+echo "$PASSWORD" | peyote gentx --name miguel
 
-bondsd collect-gentxs
-bondsd validate-genesis
+peyote collect-gentxs
+peyote validate-genesis
 
-bondsd start --pruning "everything" &
-bondscli rest-server --chain-id bondschain-1 --trust-node && fg
+peyote start --pruning "everything" &
+peycli rest-server --chain-id peyotechain-1 --trust-node && fg

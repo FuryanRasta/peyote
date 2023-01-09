@@ -6,62 +6,62 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	"github.com/gorilla/mux"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"net/http"
 )
 
 func registerQueryRoutes(cliCtx context.CLIContext, r *mux.Router, queryRoute string) {
 	r.HandleFunc(
-		"/bonds", queryBondsHandler(cliCtx, queryRoute),
+		"/peyote", queryBondsHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}", RestBondToken),
+		fmt.Sprintf("/peyote/{%s}", RestBondToken),
 		queryBondHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/batch", RestBondToken),
+		fmt.Sprintf("/peyote/{%s}/batch", RestBondToken),
 		queryBatchHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/last_batch", RestBondToken),
+		fmt.Sprintf("/peyote/{%s}/last_batch", RestBondToken),
 		queryLastBatchHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/current_price", RestBondToken),
+		fmt.Sprintf("/peyote/{%s}/current_price", RestBondToken),
 		queryCurrentPriceHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/current_reserve", RestBondToken),
+		fmt.Sprintf("/peyote/{%s}/current_reserve", RestBondToken),
 		queryCurrentReserveHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/price/{%s}", RestBondToken, RestBondAmount),
+		fmt.Sprintf("/peyote/{%s}/price/{%s}", RestBondToken, RestBondAmount),
 		queryCustomPriceHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/buy_price/{%s}", RestBondToken, RestBondAmount),
+		fmt.Sprintf("/peyote/{%s}/buy_price/{%s}", RestBondToken, RestBondAmount),
 		queryBuyPriceHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/sell_return/{%s}", RestBondToken, RestBondAmount),
+		fmt.Sprintf("/peyote/{%s}/sell_return/{%s}", RestBondToken, RestBondAmount),
 		querySellReturnHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		fmt.Sprintf("/bonds/{%s}/swap_return/{%s}/{%s}", RestBondToken, RestFromTokenWithAmount, RestToToken),
+		fmt.Sprintf("/peyote/{%s}/swap_return/{%s}/{%s}", RestBondToken, RestFromTokenWithAmount, RestToToken),
 		querySwapReturnHandler(cliCtx, queryRoute),
 	).Methods("GET")
 
 	r.HandleFunc(
-		"/bonds/params",
+		"/peyote/params",
 		queryParamsRequestHandler(cliCtx),
 	).Methods("GET")
 }
@@ -69,7 +69,7 @@ func registerQueryRoutes(cliCtx context.CLIContext, r *mux.Router, queryRoute st
 func queryBondsHandler(cliCtx context.CLIContext, queryRoute string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		res, _, err := cliCtx.QueryWithData(
-			fmt.Sprintf("custom/%s/bonds", queryRoute), nil)
+			fmt.Sprintf("custom/%s/peyote", queryRoute), nil)
 		if err != nil {
 			rest.WriteErrorResponse(w, http.StatusNotFound, err.Error())
 			return

@@ -7,20 +7,20 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	"github.com/cosmos/cosmos-sdk/x/auth/client/utils"
 	"github.com/gorilla/mux"
-	"github.com/ixoworld/bonds/x/bonds/client"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/client"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"net/http"
 	"strings"
 )
 
 func registerTxRoutes(cliCtx context.CLIContext, r *mux.Router) {
-	r.HandleFunc("/bonds/create_bond", createBondRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/edit_bond", editBondRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/buy", buyRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/sell", sellRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/swap", swapRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/make_outcome_payment", makeOutcomePaymentRequestHandler(cliCtx)).Methods("POST")
-	r.HandleFunc("/bonds/withdraw_share", withdrawShareRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/create_bond", createBondRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/edit_bond", editBondRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/buy", buyRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/sell", sellRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/swap", swapRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/make_outcome_payment", makeOutcomePaymentRequestHandler(cliCtx)).Methods("POST")
+	r.HandleFunc("/peyote/withdraw_share", withdrawShareRequestHandler(cliCtx)).Methods("POST")
 }
 
 type createBondReq struct {

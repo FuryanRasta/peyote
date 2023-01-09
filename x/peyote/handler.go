@@ -1,11 +1,11 @@
-package bonds
+package peyote
 
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/ixoworld/bonds/x/bonds/internal/keeper"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/keeper"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"strconv"
 	"strings"
@@ -30,7 +30,7 @@ func NewHandler(keeper keeper.Keeper) sdk.Handler {
 		case types.MsgWithdrawShare:
 			return handleMsgWithdrawShare(ctx, keeper, msg)
 		default:
-			return nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "Unrecognized bonds Msg type: %v", msg.Type())
+			return nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "Unrecognized peyote Msg type: %v", msg.Type())
 		}
 	}
 }

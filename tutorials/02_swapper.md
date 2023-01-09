@@ -59,10 +59,10 @@ Other customisation options that this tutorial will not go into is the ability t
 The bond, with the above configurations, can be created as follows. Note that sanity rate and sanity margin percentage only apply to swapper functions and were thus just set to `0`.
 
 ```bash
-SHAUNADDR="$(bondscli keys show shaun -a)"
-FEEADDR="$(bondscli keys show fee -a)"
+SHAUNADDR="$(peycli keys show shaun -a)"
+FEEADDR="$(peycli keys show fee -a)"
 
-bondscli tx bonds create-bond \
+peycli tx peyote create-bond \
   --token=demo \
   --name="My Bond" \
   --description="Description about my bond" \
@@ -87,11 +87,11 @@ bondscli tx bonds create-bond \
   -y
 ```
 
-The created bond can be queried using `bondscli q bonds bond demo`, which should return the following, but with different addresses:
+The created bond can be queried using `peycli q peyote bond demo`, which should return the following, but with different addresses:
 
 ```bash
 {
-  "type": "bonds/Bond",
+  "type": "peyote/Bond",
   "value": {
     "token": "demo",
     "name": "My Bond",
@@ -155,7 +155,7 @@ This effectively means that if the user requested `n` bond tokens with max price
 In this tutorial, we will perform a buy of `1demo` with max prices `500res` and `1000rez`.
 
 ```bash
-bondscli tx bonds buy 1demo 500res,1000rez \
+peycli tx peyote buy 1demo 500res,1000rez \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -163,7 +163,7 @@ bondscli tx bonds buy 1demo 500res,1000rez \
   -y
 ```
 
-We can query the `miguel` account to confirm that the `1demo` has reached the account by using `bondscli q account $(bondscli keys show miguel -a)`, where we can also see that exactly `500res` and `1000rez` were taken out of the account.
+We can query the `miguel` account to confirm that the `1demo` has reached the account by using `peycli q account $(peycli keys show miguel -a)`, where we can also see that exactly `500res` and `1000rez` were taken out of the account.
 
 ```bash
 ...
@@ -183,7 +183,7 @@ We can query the `miguel` account to confirm that the `1demo` has reached the ac
 ...
 ```
 
-At this point, if we query the buy price for an additional `1demo` using `bondscli q bonds buy-price 1demo`, as expected, this shows a `500res` and `1000rez` price, excluding fees:
+At this point, if we query the buy price for an additional `1demo` using `peycli q peyote buy-price 1demo`, as expected, this shows a `500res` and `1000rez` price, excluding fees:
 
 ```text
 ...
@@ -202,7 +202,7 @@ At this point, if we query the buy price for an additional `1demo` using `bondsc
 
 ## Make a Swap
 
-Before performing a swap, we can query the current returns for swapping the tokens. Say we want to swap `10res` to `rez`, we can perform the query `bondscli q bonds swap-return demo 10res rez`, which gives:
+Before performing a swap, we can query the current returns for swapping the tokens. Say we want to swap `10res` to `rez`, we can perform the query `peycli q peyote swap-return demo 10res rez`, which gives:
 
 ```bash
 {
@@ -226,7 +226,7 @@ Since the current reserve balances are `500res` and `1000rez`, then the value of
 We can perform a swap of `10res` as shown below. The account used is the `miguel` account \(created when running `make run_with_data`\).
 
 ```bash
-bondscli tx bonds swap demo 10 res rez \
+peycli tx peyote swap demo 10 res rez \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -234,7 +234,7 @@ bondscli tx bonds swap demo 10 res rez \
   -y
 ```
 
-We can query the `miguel` account to confirm that the demo tokens are no longer in the account by using `bondscli q account $(bondscli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
+We can query the `miguel` account to confirm that the demo tokens are no longer in the account by using `peycli q account $(peycli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
 
 ```bash
 ...

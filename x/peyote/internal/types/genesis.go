@@ -1,14 +1,14 @@
 package types
 
 type GenesisState struct {
-	Bonds   []Bond  `json:"bonds" yaml:"bonds"`
+	Bonds   []Bond  `json:"peyote" yaml:"peyote"`
 	Batches []Batch `json:"batches" yaml:"batches"`
 	Params  Params  `json:"params" yaml:"params"`
 }
 
-func NewGenesisState(bonds []Bond, batches []Batch, params Params) GenesisState {
+func NewGenesisState(peyote []Bond, batches []Batch, params Params) GenesisState {
 	return GenesisState{
-		Bonds:   bonds,
+		Bonds:   peyote,
 		Batches: batches,
 		Params:  params,
 	}

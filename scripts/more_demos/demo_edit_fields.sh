@@ -3,7 +3,7 @@
 wait() {
   echo "Waiting for chain to start..."
   while :; do
-    RET=$(bondscli status 2>&1)
+    RET=$(peycli status 2>&1)
     if [[ ($RET == ERROR*) || ($RET == *'"latest_block_height": "0"'*) ]]; then
       sleep 1
     else
@@ -17,26 +17,26 @@ wait() {
 tx_from_m() {
   cmd=$1
   shift
-  yes $PASSWORD | bondscli tx bonds "$cmd" --from miguel --keyring-backend=test -y --broadcast-mode block --gas-prices="$GAS_PRICES" "$@"
+  yes $PASSWORD | peycli tx peyote "$cmd" --from miguel --keyring-backend=test -y --broadcast-mode block --gas-prices="$GAS_PRICES" "$@"
 }
 
 tx_from_f() {
   cmd=$1
   shift
-  yes $PASSWORD | bondscli tx bonds "$cmd" --from francesco --keyring-backend=test -y --broadcast-mode block --gas-prices="$GAS_PRICES" "$@"
+  yes $PASSWORD | peycli tx peyote "$cmd" --from francesco --keyring-backend=test -y --broadcast-mode block --gas-prices="$GAS_PRICES" "$@"
 }
 
-RET=$(bondscli status 2>&1)
+RET=$(peycli status 2>&1)
 if [[ ($RET == ERROR*) || ($RET == *'"latest_block_height": "0"'*) ]]; then
   wait
 fi
 
 PASSWORD="12345678"
 GAS_PRICES="0.025stake"
-MIGUEL=$(yes $PASSWORD | bondscli keys show miguel --keyring-backend=test -a)
-FRANCESCO=$(yes $PASSWORD | bondscli keys show francesco --keyring-backend=test -a)
-SHAUN=$(yes $PASSWORD | bondscli keys show shaun --keyring-backend=test -a)
-FEE=$(yes $PASSWORD | bondscli keys show fee --keyring-backend=test -a)
+MIGUEL=$(yes $PASSWORD | peycli keys show miguel --keyring-backend=test -a)
+FRANCESCO=$(yes $PASSWORD | peycli keys show francesco --keyring-backend=test -a)
+SHAUN=$(yes $PASSWORD | peycli keys show shaun --keyring-backend=test -a)
+FEE=$(yes $PASSWORD | peycli keys show fee --keyring-backend=test -a)
 
 echo "Creating bond..."
 tx_from_m create-bond \
@@ -57,7 +57,7 @@ tx_from_m create-bond \
   --signers="$MIGUEL" \
   --batch-blocks=1
 echo "Created bond..."
-bondscli q bonds bond abc
+peycli q peyote bond abc
 
 echo "Editing name..."
 tx_from_m edit-bond \
@@ -65,7 +65,7 @@ tx_from_m edit-bond \
   --name="New A B C" \
   --signers="$MIGUEL"
 echo "Edited name..."
-bondscli q bonds bond abc
+peycli q peyote bond abc
 
 echo "Editing description..."
 tx_from_m edit-bond \
@@ -73,7 +73,7 @@ tx_from_m edit-bond \
   --description="New description about A B C" \
   --signers="$MIGUEL"
 echo "Edited description..."
-bondscli q bonds bond abc
+peycli q peyote bond abc
 
 echo "Editing order quantity limits..."
 tx_from_m edit-bond \
@@ -81,7 +81,7 @@ tx_from_m edit-bond \
   --order-quantity-limits=100abc,200res1,300res2 \
   --signers="$MIGUEL"
 echo "Edited description..."
-bondscli q bonds bond abc
+peycli q peyote bond abc
 
 echo "Editing sanity rate and margin..."
 tx_from_m edit-bond \
@@ -90,7 +90,7 @@ tx_from_m edit-bond \
   --sanity-margin-percentage=10 \
   --signers="$MIGUEL"
 echo "Edited description..."
-bondscli q bonds bond abc
+peycli q peyote bond abc
 
 echo "Editing nothing..."
 tx_from_m edit-bond \

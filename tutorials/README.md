@@ -1,6 +1,6 @@
 # Tutorials
 
-These tutorials assume that you have a running blockchain with the Bonds module included and an account with tokens, accessible via the CLI \(`bondscli`\). If you haven't done this already, the easiest way is to run `make run_with_data` from the main project folder.
+These tutorials assume that you have a running blockchain with the Bonds module included and an account with tokens, accessible via the CLI \(`peycli`\). If you haven't done this already, the easiest way is to run `make run_with_data` from the main project folder.
 
 ## Contents
 

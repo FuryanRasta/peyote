@@ -79,7 +79,7 @@ Some of the parameters of the bond may be edited:
 
 **Note**: Requires [Go 1.13+](https://golang.org/dl/)
 
-This repository is set up as a Cosmos SDK application and contains the Bonds module under `./x/bonds/`.
+This repository is set up as a Cosmos SDK application and contains the Bonds module under `./x/peyote/`.
 
 To build and run the application:
 

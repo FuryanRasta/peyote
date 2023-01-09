@@ -11,7 +11,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 )
 
 func makeTestCodec() (cdc *codec.Codec) {
@@ -76,7 +76,7 @@ func TestDecodeStore(t *testing.T) {
 		name        string
 		expectedLog string
 	}{
-		{"bonds", fmt.Sprintf("%v\n%v", bond, bond)},
+		{"peyote", fmt.Sprintf("%v\n%v", bond, bond)},
 		{"batches", fmt.Sprintf("%v\n%v", batch, batch)},
 		{"lastBatches", fmt.Sprintf("%v\n%v", lastBatch, lastBatch)},
 		{"other", ""},

@@ -6,25 +6,25 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"math/rand"
 )
 
 // Simulation parameters constants
 const (
-	InitialBonds            = "initial_bonds"
-	MaxBonds                = "max_bonds"
+	InitialBonds            = "initial_peyote"
+	MaxBonds                = "max_peyote"
 	MaxNumberOfInitialBonds = 100
 	MaxNumberOfBonds        = 100000
 )
 
-// GenInitialNumberOfBonds randomized initial number of bonds
+// GenInitialNumberOfBonds randomized initial number of peyote
 func GenInitialNumberOfBonds(r *rand.Rand) (initialBonds uint64) {
 	return uint64(r.Int63n(MaxNumberOfInitialBonds) + 1)
 }
 
-// GenMaxNumberOfBonds randomized max number of bonds
+// GenMaxNumberOfBonds randomized max number of peyote
 func GenMaxNumberOfBonds(r *rand.Rand) (maxBonds uint64) {
 	return uint64(r.Int63n(MaxNumberOfBonds-MaxNumberOfInitialBonds) + MaxNumberOfInitialBonds + 1)
 }
@@ -33,7 +33,7 @@ func GenMaxNumberOfBonds(r *rand.Rand) (maxBonds uint64) {
 func RandomizedGenState(simState *module.SimulationState) {
 	r := simState.Rand
 
-	// Generate a random number of initial bonds and maximum bonds
+	// Generate a random number of initial peyote and maximum peyote
 	var initialBonds, maxBonds uint64
 	simState.AppParams.GetOrGenerate(
 		simState.Cdc, InitialBonds, &initialBonds, simState.Rand,
@@ -49,7 +49,7 @@ func RandomizedGenState(simState *module.SimulationState) {
 	}
 	maxBondCount = int(maxBonds)
 
-	var bonds []types.Bond
+	var peyote []types.Bond
 	var batches []types.Batch
 	for i := 0; i < int(initialBonds); i++ {
 		simAccount, _ := simulation.RandomAcc(r, simState.Accounts)
@@ -102,7 +102,7 @@ func RandomizedGenState(simState *module.SimulationState) {
 			batchBlocks, outcomePayment, state)
 		batch := types.NewBatch(bond.Token, bond.BatchBlocks)
 
-		bonds = append(bonds, bond)
+		peyote = append(peyote, bond)
 		batches = append(batches, batch)
 		incrementBondCount()
 		if bond.FunctionType == types.SwapperFunction {
@@ -110,9 +110,9 @@ func RandomizedGenState(simState *module.SimulationState) {
 		}
 	}
 
-	bondsGenesis := types.NewGenesisState(bonds, batches,
+	peyoteGenesis := types.NewGenesisState(peyote, batches,
 		types.Params{ReservedBondTokens: defaultReserveTokens})
 
-	fmt.Printf("Selected randomly generated bonds genesis state:\n%s\n", codec.MustMarshalJSONIndent(simState.Cdc, bondsGenesis))
-	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(bondsGenesis)
+	fmt.Printf("Selected randomly generated peyote genesis state:\n%s\n", codec.MustMarshalJSONIndent(simState.Cdc, peyoteGenesis))
+	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(peyoteGenesis)
 }

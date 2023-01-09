@@ -3,7 +3,7 @@ package keeper
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 )
 
 func (k Keeper) GetBondIterator(ctx sdk.Context) sdk.Iterator {
@@ -53,7 +53,7 @@ func (k Keeper) SetBond(ctx sdk.Context, token string, bond types.Bond) {
 }
 
 func (k Keeper) DepositReserve(ctx sdk.Context, token string, from sdk.AccAddress, amount sdk.Coins) error {
-	// Send tokens to bonds reserve account
+	// Send tokens to peyote reserve account
 	err := k.SupplyKeeper.SendCoinsFromAccountToModule(
 		ctx, from, types.BondsReserveAccount, amount)
 	if err != nil {
@@ -69,7 +69,7 @@ func (k Keeper) DepositReserve(ctx sdk.Context, token string, from sdk.AccAddres
 func (k Keeper) DepositReserveFromModule(ctx sdk.Context, token string,
 	fromModule string, amount sdk.Coins) error {
 
-	// Send tokens to bonds reserve account
+	// Send tokens to peyote reserve account
 	err := k.SupplyKeeper.SendCoinsFromModuleToModule(
 		ctx, fromModule, types.BondsReserveAccount, amount)
 	if err != nil {
@@ -85,7 +85,7 @@ func (k Keeper) DepositReserveFromModule(ctx sdk.Context, token string,
 func (k Keeper) WithdrawReserve(ctx sdk.Context, token string,
 	to sdk.AccAddress, amount sdk.Coins) error {
 
-	// Send tokens from bonds reserve account
+	// Send tokens from peyote reserve account
 	err := k.SupplyKeeper.SendCoinsFromModuleToAccount(
 		ctx, types.BondsReserveAccount, to, amount)
 	if err != nil {

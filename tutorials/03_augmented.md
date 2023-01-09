@@ -78,10 +78,10 @@ Additionally, sanity rate and sanity margin percentage only apply to swapper fun
 The bond, with the above configurations, can be created as follows:
 
 ```bash
-SHAUNADDR="$(bondscli keys show shaun -a)"
-FEEADDR="$(bondscli keys show fee -a)"
+SHAUNADDR="$(peycli keys show shaun -a)"
+FEEADDR="$(peycli keys show fee -a)"
 
-bondscli tx bonds create-bond \
+peycli tx peyote create-bond \
   --token=demo \
   --name="My Bond" \
   --description="Description about my bond" \
@@ -106,11 +106,11 @@ bondscli tx bonds create-bond \
   -y
 ```
 
-The created bond can be queried using `bondscli q bonds bond demo`, which should return the following, but with different addresses:
+The created bond can be queried using `peycli q peyote bond demo`, which should return the following, but with different addresses:
 
 ```bash
 {
-  "type": "bonds/Bond",
+  "type": "peyote/Bond",
   "value": {
     "token": "demo",
     "name": "My Bond",
@@ -188,7 +188,7 @@ Note that some extra fields that we did not input ourselves are present. Some of
 
 ## Mint to Deposit \(Hatch Phase\)
 
-During the hatch phase, one can only perform a buy \(mint-to-deposit\). The buying price will be `p0`, and we can query this for confirmation using `bondscli q bonds current-price demo`, which gives:
+During the hatch phase, one can only perform a buy \(mint-to-deposit\). The buying price will be `p0`, and we can query this for confirmation using `peycli q peyote current-price demo`, which gives:
 
 ```bash
 [
@@ -199,7 +199,7 @@ During the hatch phase, one can only perform a buy \(mint-to-deposit\). The buyi
 ]
 ```
 
-Given that the initial supply `S0` is `50000`, it will require `50000demo` in order for the augmented curve to transition to the `OPEN` phase. We can go ahead and just perform a buy of `50000demo` in a single buy. The expected price will be `0.01 x 50000 = 500stake`. We can confirm this using `bondscli q bonds buy-price 50000demo`, which gives:
+Given that the initial supply `S0` is `50000`, it will require `50000demo` in order for the augmented curve to transition to the `OPEN` phase. We can go ahead and just perform a buy of `50000demo` in a single buy. The expected price will be `0.01 x 50000 = 500stake`. We can confirm this using `peycli q peyote buy-price 50000demo`, which gives:
 
 ```bash
 ...
@@ -217,7 +217,7 @@ Note that this matches the initial raise `d0`. Also note that since we are not c
 We can perform the buy as follows, with `500stake` as the max spend. The account used is the `miguel` account \(created when running `make run_with_data`\).
 
 ```bash
-bondscli tx bonds buy 50000demo 500stake \
+peycli tx peyote buy 50000demo 500stake \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -225,7 +225,7 @@ bondscli tx bonds buy 50000demo 500stake \
   -y
 ```
 
-We can query the `miguel` account to confirm that the demo tokens have reached the account by using `bondscli q account $(bondscli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
+We can query the `miguel` account to confirm that the demo tokens have reached the account by using `peycli q account $(peycli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
 
 ```bash
 ...
@@ -245,7 +245,7 @@ We can query the `miguel` account to confirm that the demo tokens have reached t
 
 Note how the account now has `50000demo` and `99994500stake` \(a `5500stake` decrease!\). The decrease in stake includes the buying price charged `500stake` and the blockchain gas fees `5000stake`.
 
-We can also confirm the supply and reserve values and that the bond has transitioned to the `OPEN` phase by querying the bond using `bondscli q bonds bond demo` which gives the below result. Note how the current reserve matches `R0=300`.
+We can also confirm the supply and reserve values and that the bond has transitioned to the `OPEN` phase by querying the bond using `peycli q peyote bond demo` which gives the below result. Note how the current reserve matches `R0=300`.
 
 ```bash
 ...
@@ -264,11 +264,11 @@ We can also confirm the supply and reserve values and that the bond has transiti
 ...
 ```
 
-The remaining `200` out of the `500stake` deposited were sent to the funding pool \(i.e. fee address\) and can be queried using `bondscli q account "$FEEADDR"`. Note that the bond creator is expected to have access to this funding pool and will be able to safely use any funds send to it.
+The remaining `200` out of the `500stake` deposited were sent to the funding pool \(i.e. fee address\) and can be queried using `peycli q account "$FEEADDR"`. Note that the bond creator is expected to have access to this funding pool and will be able to safely use any funds send to it.
 
 ## Mint to Deposit and Burn to Withdraw \(Open Phase\)
 
-Now that the `OPEN` phase has been reached, we can query the price again using `bondscli q bonds current-price demo`, which gives:
+Now that the `OPEN` phase has been reached, we can query the price again using `peycli q peyote current-price demo`, which gives:
 
 ```bash
 [
@@ -291,7 +291,7 @@ As a refresher, the outcome payment is an amount of tokens that the bond creator
 
 Let's assume that those goals were reached and the bond creator wants to make the outcome payment. Note that anyone with enough tokens is able to make the outcome payment, not just the bond creator.
 
-Before making the payment, it is interesting to query the returns from selling before the outcome payment reaches the reserves, using `bondscli q bonds sell-return 50000demo`, which gives:
+Before making the payment, it is interesting to query the returns from selling before the outcome payment reaches the reserves, using `peycli q peyote sell-return 50000demo`, which gives:
 
 ```bash
 ...
@@ -315,7 +315,7 @@ Note that the maximum that the user can get back at the moment is the exact amou
 Now let's make the outcome payment from the bond creator. The account used is the `shaun` account \(created when running `make run_with_data`\).
 
 ```bash
-bondscli tx bonds make-outcome-payment demo \
+peycli tx peyote make-outcome-payment demo \
   --from shaun \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -323,7 +323,7 @@ bondscli tx bonds make-outcome-payment demo \
   -y
 ```
 
-This causes a state transition from `OPEN` to `SETTLE` and adds `100000stake` to the reserve. Both of these can be confirmed by querying the bond using `bondscli q bonds bond demo`, which gives:
+This causes a state transition from `OPEN` to `SETTLE` and adds `100000stake` to the reserve. Both of these can be confirmed by querying the bond using `peycli q peyote bond demo`, which gives:
 
 ```bash
 ...
@@ -341,7 +341,7 @@ This causes a state transition from `OPEN` to `SETTLE` and adds `100000stake` to
 At this stage, both buys and sells have been disabled and the only action that is possible is for bond token holders to withdraw their share of the reserve pool by performing a share withdrawal. The account used is the `miguel` account \(created when running `make run_with_data`\).
 
 ```text
-bondscli tx bonds withdraw-share demo \
+peycli tx peyote withdraw-share demo \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -349,7 +349,7 @@ bondscli tx bonds withdraw-share demo \
   -y
 ```
 
-Since the `miguel` account held 100% of the bond token supply, this share withdrawal sends all of the bond reserve to `miguel` and burns the entire bond token supply \(sent by `miguel`, which held all of these\). In fact if we query the bond one last time, this information can be confirmed, using `bondscli q bonds bond demo`, which gives:
+Since the `miguel` account held 100% of the bond token supply, this share withdrawal sends all of the bond reserve to `miguel` and burns the entire bond token supply \(sent by `miguel`, which held all of these\). In fact if we query the bond one last time, this information can be confirmed, using `peycli q peyote bond demo`, which gives:
 
 ```bash
 ...

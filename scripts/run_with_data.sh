@@ -3,56 +3,56 @@
 PASSWORD="12345678"
 GAS_PRICES="0.025stake"
 
-bondsd init local --chain-id bondschain-1
+peyote init local --chain-id peyotechain-1
 
-yes $PASSWORD | bondscli keys delete miguel --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete francesco --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete shaun --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete fee --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete fee2 --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete fee3 --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete fee4 --keyring-backend=test --force
-yes $PASSWORD | bondscli keys delete fee5 --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete miguel --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete francesco --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete shaun --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete fee --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete fee2 --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete fee3 --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete fee4 --keyring-backend=test --force
+yes $PASSWORD | peycli keys delete fee5 --keyring-backend=test --force
 
-yes $PASSWORD | bondscli keys add miguel --keyring-backend=test
-yes $PASSWORD | bondscli keys add francesco --keyring-backend=test
-yes $PASSWORD | bondscli keys add shaun --keyring-backend=test
-yes $PASSWORD | bondscli keys add fee --keyring-backend=test
-yes $PASSWORD | bondscli keys add fee2 --keyring-backend=test
-yes $PASSWORD | bondscli keys add fee3 --keyring-backend=test
-yes $PASSWORD | bondscli keys add fee4 --keyring-backend=test
-yes $PASSWORD | bondscli keys add fee5 --keyring-backend=test
+yes $PASSWORD | peycli keys add miguel --keyring-backend=test
+yes $PASSWORD | peycli keys add francesco --keyring-backend=test
+yes $PASSWORD | peycli keys add shaun --keyring-backend=test
+yes $PASSWORD | peycli keys add fee --keyring-backend=test
+yes $PASSWORD | peycli keys add fee2 --keyring-backend=test
+yes $PASSWORD | peycli keys add fee3 --keyring-backend=test
+yes $PASSWORD | peycli keys add fee4 --keyring-backend=test
+yes $PASSWORD | peycli keys add fee5 --keyring-backend=test
 
 # Note: important to add 'miguel' as a genesis-account since this is the chain's validator
-yes $PASSWORD | bondsd add-genesis-account $(bondscli keys show miguel --keyring-backend=test -a) 200000000stake,1000000res,1000000rez
-yes $PASSWORD | bondsd add-genesis-account $(bondscli keys show francesco --keyring-backend=test -a) 100000000stake,1000000res,1000000rez
-yes $PASSWORD | bondsd add-genesis-account $(bondscli keys show shaun --keyring-backend=test -a) 100000000stake,1000000res,1000000rez
+yes $PASSWORD | peyote add-genesis-account $(peycli keys show miguel --keyring-backend=test -a) 200000000stake,1000000res,1000000rez
+yes $PASSWORD | peyote add-genesis-account $(peycli keys show francesco --keyring-backend=test -a) 100000000stake,1000000res,1000000rez
+yes $PASSWORD | peyote add-genesis-account $(peycli keys show shaun --keyring-backend=test -a) 100000000stake,1000000res,1000000rez
 
 # Set min-gas-prices
 FROM="minimum-gas-prices = \"\""
 TO="minimum-gas-prices = \"0.025stake\""
-sed -i "s/$FROM/$TO/" "$HOME"/.bondsd/config/app.toml
+sed -i "s/$FROM/$TO/" "$HOME"/.peyote/config/app.toml
 
-bondscli config chain-id bondschain-1
-bondscli config output json
-bondscli config indent true
-bondscli config trust-node true
-bondscli config keyring-backend test
+peycli config chain-id peyotechain-1
+peycli config output json
+peycli config indent true
+peycli config trust-node true
+peycli config keyring-backend test
 
-yes $PASSWORD | bondsd gentx --name miguel --keyring-backend=test
+yes $PASSWORD | peyote gentx --name miguel --keyring-backend=test
 
-bondsd collect-gentxs
-bondsd validate-genesis
+peyote collect-gentxs
+peyote validate-genesis
 
 # Uncomment the below to broadcast node RPC endpoint
 #FROM="laddr = \"tcp:\/\/127.0.0.1:26657\""
 #TO="laddr = \"tcp:\/\/0.0.0.0:26657\""
-#sed -i "s/$FROM/$TO/" "$HOME"/.bondsd/config/config.toml
+#sed -i "s/$FROM/$TO/" "$HOME"/.peyote/config/config.toml
 
 # Uncomment the below to broadcast REST endpoint
 # Do not forget to comment the bottom lines !!
-# bondsd start --pruning "everything" &
-# bondscli rest-server --chain-id bondschain-1 --laddr="tcp://0.0.0.0:1317" --trust-node && fg
+# peyote start --pruning "everything" &
+# peycli rest-server --chain-id peyotechain-1 --laddr="tcp://0.0.0.0:1317" --trust-node && fg
 
-bondsd start --pruning "everything" &
-bondscli rest-server --chain-id bondschain-1 --trust-node && fg
+peyote start --pruning "everything" &
+peycli rest-server --chain-id peyotechain-1 --trust-node && fg

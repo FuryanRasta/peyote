@@ -11,15 +11,15 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/client/utils"
-	client2 "github.com/ixoworld/bonds/x/bonds/client"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	client2 "github.com/warmage-sports/peyote/x/peyote/client"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"strings"
 )
 
 func GetTxCmd(cdc *codec.Codec) *cobra.Command {
-	bondsTxCmd := &cobra.Command{
+	peyoteTxCmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Bonds transaction subcommands",
 		DisableFlagParsing:         true,
@@ -27,7 +27,7 @@ func GetTxCmd(cdc *codec.Codec) *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	bondsTxCmd.AddCommand(flags.PostCommands(
+	peyoteTxCmd.AddCommand(flags.PostCommands(
 		GetCmdCreateBond(cdc),
 		GetCmdEditBond(cdc),
 		GetCmdBuy(cdc),
@@ -37,7 +37,7 @@ func GetTxCmd(cdc *codec.Codec) *cobra.Command {
 		GetCmdWithdrawShare(cdc),
 	)...)
 
-	return bondsTxCmd
+	return peyoteTxCmd
 }
 
 func GetCmdCreateBond(cdc *codec.Codec) *cobra.Command {

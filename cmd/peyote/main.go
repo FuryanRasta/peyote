@@ -16,7 +16,7 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/ixoworld/bonds/x/bonds/app"
+	"github.com/warmage-sports/peyote/x/peyote/app"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/server"
@@ -26,7 +26,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 )
 
-// bondsd custom flags
+// peyote custom flags
 const flagInvCheckPeriod = "inv-check-period"
 
 var invCheckPeriod uint
@@ -37,7 +37,7 @@ func main() {
 	ctx := server.NewDefaultContext()
 	cobra.EnableCommandSorting = false
 	rootCmd := &cobra.Command{
-		Use:               "bondsd",
+		Use:               "peyote",
 		Short:             "Bonds module app daemon (server)",
 		PersistentPreRunE: server.PersistentPreRunEFn(ctx),
 	}

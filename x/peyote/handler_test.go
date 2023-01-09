@@ -1,8 +1,8 @@
-package bonds_test
+package peyote_test
 
 import (
-	"github.com/ixoworld/bonds/x/bonds"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -12,7 +12,7 @@ import (
 
 func TestInvalidMsgFails(t *testing.T) {
 	_, ctx := createTestApp(false)
-	h := bonds.NewHandler(bonds.Keeper{})
+	h := peyote.NewHandler(peyote.Keeper{})
 
 	msg := sdk.NewTestMsg()
 	_, err := h(ctx, msg)
@@ -22,7 +22,7 @@ func TestInvalidMsgFails(t *testing.T) {
 
 func TestCreateValidBond(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	_, err := h(ctx, newValidMsgCreateBond())
@@ -37,7 +37,7 @@ func TestCreateValidBond(t *testing.T) {
 
 func TestCreateValidAugmentedBondHatchState(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create augmented function bond
 	_, err := h(ctx, newValidMsgCreateAugmentedBond())
@@ -74,7 +74,7 @@ func TestCreateValidAugmentedBondHatchState(t *testing.T) {
 
 func TestCreateBondThatAlreadyExistsFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	bond := types.Bond{Token: token}
@@ -88,7 +88,7 @@ func TestCreateBondThatAlreadyExistsFails(t *testing.T) {
 
 func TestCreatingABondUsingStakingTokenFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with token set to staking token
 	msg := newValidMsgCreateBond()
@@ -101,7 +101,7 @@ func TestCreatingABondUsingStakingTokenFails(t *testing.T) {
 
 func TestEditingANonExistingBondFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Edit bond
 	msg := types.NewMsgEditBond(token, initName, initDescription, "",
@@ -114,7 +114,7 @@ func TestEditingANonExistingBondFails(t *testing.T) {
 
 func TestEditingABondWithDifferentCreatorAndSignersFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -129,7 +129,7 @@ func TestEditingABondWithDifferentCreatorAndSignersFails(t *testing.T) {
 
 func TestEditingABondWithNegativeOrderQuantityLimitsFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -144,7 +144,7 @@ func TestEditingABondWithNegativeOrderQuantityLimitsFails(t *testing.T) {
 
 func TestEditingABondWithFloatOrderQuantityLimitsFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -159,7 +159,7 @@ func TestEditingABondWithFloatOrderQuantityLimitsFails(t *testing.T) {
 
 func TestEditingABondWithSanityRateEmptyStringMakesSanityFieldsZero(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	bond := newSimpleBond()
@@ -186,7 +186,7 @@ func TestEditingABondWithSanityRateEmptyStringMakesSanityFieldsZero(t *testing.T
 
 func TestEditingABondWithNegativeSanityRateFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -201,7 +201,7 @@ func TestEditingABondWithNegativeSanityRateFails(t *testing.T) {
 
 func TestEditingABondWithNonFloatSanityRateFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -216,7 +216,7 @@ func TestEditingABondWithNonFloatSanityRateFails(t *testing.T) {
 
 func TestEditingABondWithNegativeSanityMarginPercentageFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -231,7 +231,7 @@ func TestEditingABondWithNegativeSanityMarginPercentageFails(t *testing.T) {
 
 func TestEditingABondWithNonFloatSanityMarginPercentageFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -246,7 +246,7 @@ func TestEditingABondWithNonFloatSanityMarginPercentageFails(t *testing.T) {
 
 func TestEditingABondCorrectlyPasses(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Set bond to simulate creation
 	app.BondsKeeper.SetBond(ctx, token, newSimpleBond())
@@ -269,7 +269,7 @@ func TestEditingABondCorrectlyPasses(t *testing.T) {
 
 func TestBuyingANonExistingBondFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Buy 1 token
 	_, err := h(ctx, newValidMsgBuy(1, 10))
@@ -279,7 +279,7 @@ func TestBuyingANonExistingBondFails(t *testing.T) {
 
 func TestBuyingABondWithNonExistentToken(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -296,7 +296,7 @@ func TestBuyingABondWithNonExistentToken(t *testing.T) {
 
 func TestBuyingABondWithMaxPriceBiggerThanBalanceFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -315,7 +315,7 @@ func TestBuyingABondWithMaxPriceBiggerThanBalanceFails(t *testing.T) {
 
 func TestBuyingBondWithOrderQuantityLimitExceededFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with order quantity limit
 	msg := newValidMsgCreateBond()
@@ -336,7 +336,7 @@ func TestBuyingBondWithOrderQuantityLimitExceededFails(t *testing.T) {
 
 func TestBuyingABondExceedingMaxSupplyFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -355,7 +355,7 @@ func TestBuyingABondExceedingMaxSupplyFails(t *testing.T) {
 
 func TestBuyingABondExceedingMaxPriceFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -374,7 +374,7 @@ func TestBuyingABondExceedingMaxPriceFails(t *testing.T) {
 
 func TestBuyingABondWithoutSufficientFundsFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -393,7 +393,7 @@ func TestBuyingABondWithoutSufficientFundsFails(t *testing.T) {
 
 func TestBuyingABondWithoutSufficientFundsDueToTxFeeFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -412,7 +412,7 @@ func TestBuyingABondWithoutSufficientFundsDueToTxFeeFails(t *testing.T) {
 
 func TestBuyingABondCorrectlyPasses(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -423,7 +423,7 @@ func TestBuyingABondCorrectlyPasses(t *testing.T) {
 
 	// Buy 2 tokens
 	_, err = h(ctx, newValidMsgBuy(2, 4000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
 	reserveBalance := app.BondsKeeper.GetReserveBalances(ctx, initToken)
@@ -439,7 +439,7 @@ func TestBuyingABondCorrectlyPasses(t *testing.T) {
 
 func TestSellingANonExistingBondFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Sell 10 tokens
 	_, err := h(ctx, newValidMsgSell(10))
@@ -450,7 +450,7 @@ func TestSellingANonExistingBondFails(t *testing.T) {
 
 func TestSellingABondWhichCannotBeSoldFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	createMsg := newValidMsgCreateBond()
@@ -463,7 +463,7 @@ func TestSellingABondWhichCannotBeSoldFails(t *testing.T) {
 
 	// Buy 10 tokens
 	h(ctx, newValidMsgBuy(10, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell 10 tokens
 	bondPreSell := app.BondsKeeper.MustGetBond(ctx, token)
@@ -476,7 +476,7 @@ func TestSellingABondWhichCannotBeSoldFails(t *testing.T) {
 
 func TestSellBondExceedingOrderQuantityLimitFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with order quantity limit
 	msg := newValidMsgCreateBond()
@@ -489,7 +489,7 @@ func TestSellBondExceedingOrderQuantityLimitFails(t *testing.T) {
 
 	// Buy 10 tokens
 	h(ctx, newValidMsgBuy(10, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell 10 tokens
 	bondPreSell := app.BondsKeeper.MustGetBond(ctx, token)
@@ -502,7 +502,7 @@ func TestSellBondExceedingOrderQuantityLimitFails(t *testing.T) {
 
 func TestSellingABondWithAmountGreaterThanBalanceFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -513,7 +513,7 @@ func TestSellingABondWithAmountGreaterThanBalanceFails(t *testing.T) {
 
 	// Buy 10 tokens
 	h(ctx, newValidMsgBuy(10, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell 11 tokens
 	bondPreSell := app.BondsKeeper.MustGetBond(ctx, token)
@@ -528,7 +528,7 @@ func TestSellingABondWithAmountGreaterThanBalanceFails(t *testing.T) {
 
 func TestSellingABondWhichSellerDoesNotOwnFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create first bond
 	h(ctx, newValidMsgCreateBond())
@@ -544,7 +544,7 @@ func TestSellingABondWhichSellerDoesNotOwnFails(t *testing.T) {
 
 	// Buy 10 tokens
 	h(ctx, newValidMsgBuy(10, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell 11 of a different bond
 	msg := newValidMsgSell(0) // 0 amount replaced below
@@ -559,7 +559,7 @@ func TestSellingABondWhichSellerDoesNotOwnFails(t *testing.T) {
 
 func TestSellingMoreTokensThanThereIsSupplyFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -570,7 +570,7 @@ func TestSellingMoreTokensThanThereIsSupplyFails(t *testing.T) {
 
 	// Buy 10 tokens
 	h(ctx, newValidMsgBuy(10, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell an amount greater than the max supply
 	bondPreSell := app.BondsKeeper.MustGetBond(ctx, token)
@@ -585,7 +585,7 @@ func TestSellingMoreTokensThanThereIsSupplyFails(t *testing.T) {
 
 func TestSellingABondCorrectlyPasses(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -596,12 +596,12 @@ func TestSellingABondCorrectlyPasses(t *testing.T) {
 
 	// Buy 2 tokens
 	h(ctx, newValidMsgBuy(2, 4000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Sell 2 tokens
 	msg := newValidMsgSell(2)
 	_, err = h(ctx, msg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
 	reserveBalance := app.BondsKeeper.GetReserveBalances(ctx, initToken)
@@ -617,7 +617,7 @@ func TestSellingABondCorrectlyPasses(t *testing.T) {
 
 func TestSwapBondDoesNotExistFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Swap tokens
 	_, err := h(ctx, newValidMsgSwap(reserveToken, reserveToken2, 1))
@@ -628,7 +628,7 @@ func TestSwapBondDoesNotExistFails(t *testing.T) {
 
 func TestSwapOrderInvalidReserveDenomsFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateSwapperBond())
@@ -648,11 +648,11 @@ func TestSwapOrderInvalidReserveDenomsFails(t *testing.T) {
 		sdk.NewInt64Coin(reserveToken2, 10000),
 	)
 	h(ctx, buyMsg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Perform swap (invalid instead of reserveToken)
 	_, err = h(ctx, newValidMsgSwap("invalid", reserveToken2, 10))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance := app.AccountKeeper.GetAccount(ctx, userAddress).GetCoins()
 	require.Error(t, err)
@@ -660,7 +660,7 @@ func TestSwapOrderInvalidReserveDenomsFails(t *testing.T) {
 
 	// Perform swap (invalid instead of reserveToken2)
 	_, err = h(ctx, newValidMsgSwap(reserveToken, "invalid", 10))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance = app.AccountKeeper.GetAccount(ctx, userAddress).GetCoins()
 	require.Error(t, err)
@@ -669,7 +669,7 @@ func TestSwapOrderInvalidReserveDenomsFails(t *testing.T) {
 
 func TestSwapOrderQuantityLimitExceededFails(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with order quantity limit
 	createMsg := newValidMsgCreateSwapperBond()
@@ -691,7 +691,7 @@ func TestSwapOrderQuantityLimitExceededFails(t *testing.T) {
 		sdk.NewInt64Coin(reserveToken2, 10000),
 	)
 	h(ctx, buyMsg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Perform swap
 	msg := types.NewMsgSwap(userAddress, token, sdk.NewInt64Coin(reserveToken, 5), reserveToken2)
@@ -704,7 +704,7 @@ func TestSwapOrderQuantityLimitExceededFails(t *testing.T) {
 
 func TestSwapInvalidAmount(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateSwapperBond())
@@ -722,7 +722,7 @@ func TestSwapInvalidAmount(t *testing.T) {
 		sdk.NewInt64Coin(reserveToken2, 10000),
 	)
 	h(ctx, buyMsg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Perform swap
 	msg := types.NewMsgSwap(userAddress, token, tenReserveTokens, reserveToken2)
@@ -733,7 +733,7 @@ func TestSwapInvalidAmount(t *testing.T) {
 
 func TestSwapValidAmount(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateSwapperBond())
@@ -753,11 +753,11 @@ func TestSwapValidAmount(t *testing.T) {
 		sdk.NewInt64Coin(reserveToken2, 10000),
 	)
 	h(ctx, buyMsg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Perform swap
 	_, err = h(ctx, newValidMsgSwap(reserveToken, reserveToken2, 10))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
 	reserveBalance := app.BondsKeeper.GetReserveBalances(ctx, initToken)
@@ -773,7 +773,7 @@ func TestSwapValidAmount(t *testing.T) {
 
 func TestSwapValidAmountReversed(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateSwapperBond())
@@ -793,11 +793,11 @@ func TestSwapValidAmountReversed(t *testing.T) {
 		sdk.NewInt64Coin(reserveToken2, 10000),
 	)
 	h(ctx, buyMsg)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Perform swap
 	_, err = h(ctx, newValidMsgSwap(reserveToken2, reserveToken, 10))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	userBalance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
 	reserveBalance := app.BondsKeeper.GetReserveBalances(ctx, initToken)
@@ -813,7 +813,7 @@ func TestSwapValidAmountReversed(t *testing.T) {
 
 func TestMakeOutcomePayment(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with 100k outcome payment
 	bondMsg := newValidMsgCreateBond()
@@ -826,7 +826,7 @@ func TestMakeOutcomePayment(t *testing.T) {
 
 	// Make outcome payment
 	_, err = h(ctx, newValidMsgMakeOutcomePayment())
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Check that outcome payment is now in the bond reserve
 	userBalance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
@@ -841,7 +841,7 @@ func TestMakeOutcomePayment(t *testing.T) {
 
 func TestWithdrawShare(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	h(ctx, newValidMsgCreateBond())
@@ -874,7 +874,7 @@ func TestWithdrawShare(t *testing.T) {
 	// User 1 withdraws share
 	_, err = h(ctx, newValidMsgWithdrawShareFrom(userAddress))
 	require.NoError(t, err)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// User 1 had 2 tokens out of the supply of 3 tokens, so user 1 gets 2/3
 	user1Balance := app.BondsKeeper.BankKeeper.GetCoins(ctx, userAddress)
@@ -891,7 +891,7 @@ func TestWithdrawShare(t *testing.T) {
 	// User 2 withdraws share
 	_, err = h(ctx, newValidMsgWithdrawShareFrom(anotherAddress))
 	require.NoError(t, err)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// User 2 had 1 token out of the remaining supply of 1 token, so user 2 gets all remaining
 	user2Balance := app.BondsKeeper.BankKeeper.GetCoins(ctx, anotherAddress)
@@ -903,7 +903,7 @@ func TestWithdrawShare(t *testing.T) {
 
 func TestDecrementRemainingBlocksCountAfterEndBlock(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	two := sdk.NewUint(2)
 	one := sdk.NewUint(1)
@@ -914,13 +914,13 @@ func TestDecrementRemainingBlocksCountAfterEndBlock(t *testing.T) {
 	h(ctx, createMsg)
 
 	require.Equal(t, two, app.BondsKeeper.MustGetBatch(ctx, token).BlocksRemaining)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 	require.Equal(t, one, app.BondsKeeper.MustGetBatch(ctx, token).BlocksRemaining)
 }
 
 func TestEndBlockerDoesNotPerformOrdersBeforeASpecifiedNumberOfBlocks(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with batch blocks set to 2
 	createMsg := newValidMsgCreateBond()
@@ -934,14 +934,14 @@ func TestEndBlockerDoesNotPerformOrdersBeforeASpecifiedNumberOfBlocks(t *testing
 	// Buy 4 tokens
 	h(ctx, newValidMsgBuy(2, 10000))
 	h(ctx, newValidMsgBuy(2, 10000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	require.Equal(t, len(app.BondsKeeper.MustGetBatch(ctx, token).Buys), 2)
 }
 
 func TestEndBlockerPerformsOrdersAfterASpecifiedNumberOfBlocks(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond
 	createMsg := newValidMsgCreateBond()
@@ -959,7 +959,7 @@ func TestEndBlockerPerformsOrdersAfterASpecifiedNumberOfBlocks(t *testing.T) {
 	// Run EndBlocker for N times, where N = BatchBlocks
 	batchBlocksInt := int(createMsg.BatchBlocks.Uint64())
 	for i := 0; i <= batchBlocksInt; i++ {
-		bonds.EndBlocker(ctx, app.BondsKeeper)
+		peyote.EndBlocker(ctx, app.BondsKeeper)
 	}
 
 	// Buys have been performed
@@ -968,7 +968,7 @@ func TestEndBlockerPerformsOrdersAfterASpecifiedNumberOfBlocks(t *testing.T) {
 
 func TestEndBlockerAugmentedFunction(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with augmented function type
 	createMsg := newValidMsgCreateAugmentedBond()
@@ -993,7 +993,7 @@ func TestEndBlockerAugmentedFunction(t *testing.T) {
 	require.Error(t, err)
 	_, err = h(ctx, newValidMsgSell(1))
 	require.Error(t, err)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Confirm allowSells and state still the same
 	bond = app.BondsKeeper.MustGetBond(ctx, token)
@@ -1002,7 +1002,7 @@ func TestEndBlockerAugmentedFunction(t *testing.T) {
 
 	// Buy 1 more token, to reach S0 => state is now open
 	h(ctx, newValidMsgBuy(1, 100000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Confirm allowSells==true, state==open
 	bond = app.BondsKeeper.MustGetBond(ctx, token)
@@ -1016,14 +1016,14 @@ func TestEndBlockerAugmentedFunction(t *testing.T) {
 	// Can now sell tokens (all 50,000 of them)
 	_, err = h(ctx, newValidMsgSell(50000))
 	require.NoError(t, err)
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 	balance = app.BankKeeper.GetCoins(ctx, userAddress).AmountOf(token).Int64()
 	require.Equal(t, int64(0), balance)
 }
 
 func TestEndBlockerAugmentedFunctionDecimalS0(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with augmented function type
 	createMsg := newValidMsgCreateAugmentedBond()
@@ -1052,7 +1052,7 @@ func TestEndBlockerAugmentedFunctionDecimalS0(t *testing.T) {
 
 	// Buy 49999 tokens; just below S0
 	h(ctx, newValidMsgBuy(49999, 100000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Confirm allowSells and state still the same
 	bond = app.BondsKeeper.MustGetBond(ctx, token)
@@ -1061,7 +1061,7 @@ func TestEndBlockerAugmentedFunctionDecimalS0(t *testing.T) {
 
 	// Buy 1 more token, to exceed S0
 	h(ctx, newValidMsgBuy(1, 100000))
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Confirm allowSells==true, state==open
 	bond = app.BondsKeeper.MustGetBond(ctx, token)
@@ -1071,7 +1071,7 @@ func TestEndBlockerAugmentedFunctionDecimalS0(t *testing.T) {
 
 func TestEndBlockerAugmentedFunctionSmallBuys(t *testing.T) {
 	app, ctx := createTestApp(false)
-	h := bonds.NewHandler(app.BondsKeeper)
+	h := peyote.NewHandler(app.BondsKeeper)
 
 	// Create bond with augmented function type, small params, and zero fees
 	createMsg := newValidMsgCreateAugmentedBond()
@@ -1100,7 +1100,7 @@ func TestEndBlockerAugmentedFunctionSmallBuys(t *testing.T) {
 		_, err := h(ctx, newValidMsgBuy(1, 1))
 		require.NoError(t, err)
 	}
-	bonds.EndBlocker(ctx, app.BondsKeeper)
+	peyote.EndBlocker(ctx, app.BondsKeeper)
 
 	// Confirm allowSells==true, state==open
 	bond = app.BondsKeeper.MustGetBond(ctx, token)

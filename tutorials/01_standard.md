@@ -67,10 +67,10 @@ Additionally, sanity rate and sanity margin percentage only apply to swapper fun
 The bond, with the above configurations, can be created as follows:
 
 ```bash
-SHAUNADDR="$(bondscli keys show shaun -a)"
-FEEADDR="$(bondscli keys show fee -a)"
+SHAUNADDR="$(peycli keys show shaun -a)"
+FEEADDR="$(peycli keys show fee -a)"
 
-bondscli tx bonds create-bond \
+peycli tx peyote create-bond \
   --token=demo \
   --name="My Bond" \
   --description="Description about my bond" \
@@ -95,11 +95,11 @@ bondscli tx bonds create-bond \
   -y
 ```
 
-The created bond can be queried using `bondscli q bonds bond demo`, which should return the following, but with different addresses:
+The created bond can be queried using `peycli q peyote bond demo`, which should return the following, but with different addresses:
 
 ```bash
 {
-  "type": "bonds/Bond",
+  "type": "peyote/Bond",
   "value": {
     "token": "demo",
     "name": "My Bond",
@@ -160,13 +160,13 @@ Note that some extra fields that we did not input ourselves are present:
 * `current_reserve`: stores the current reserve that has been sent to the bond as a result of buys and increases/decreases whenever a buy/sell is performed
 * `state`: stores the current state of the bond, which throughout this tutorial will remain `OPEN`
 
-We are also able to query the bond's current batch using `bondscli q bonds batch demo`, which should return the below. Since we have not performed any buys/sells/swaps, the associated fields are all zero or null. The blocks remaining starts at the `batch-blocks` value that we had picked, decreases by 1 at the end of each block, and is reset to `batch-blocks` as soon as it reaches 0.
+We are also able to query the bond's current batch using `peycli q peyote batch demo`, which should return the below. Since we have not performed any buys/sells/swaps, the associated fields are all zero or null. The blocks remaining starts at the `batch-blocks` value that we had picked, decreases by 1 at the end of each block, and is reset to `batch-blocks` as soon as it reaches 0.
 
 In the case of this tutorial, since we set `batch-blocks` to 2, the `blocks_remaining` value will start at 2, go to 1, and back to 2 \(since it will have reached 0\). We will never see `blocks_remaining` reach 0.
 
 ```bash
 {
-  "type": "bonds/Batch",
+  "type": "peyote/Batch",
   "value": {
     "token": "demo",
     "blocks_remaining": "2",
@@ -189,7 +189,7 @@ In the case of this tutorial, since we set `batch-blocks` to 2, the `blocks_rema
 
 ## Mint to Deposit
 
-Before performing a buy \(mint-to-deposit\), we can query the current price to buy the tokens. Say we want to buy `10demo`, we can perform the query `bondscli q bonds buy-price 10demo`, which gives:
+Before performing a buy \(mint-to-deposit\), we can query the current price to buy the tokens. Say we want to buy `10demo`, we can perform the query `peycli q peyote buy-price 10demo`, which gives:
 
 ```bash
 {
@@ -237,7 +237,7 @@ Note that in the above working, `x` was set to 10 because that is the supply tha
 Now that we know the buy price, we can perform a buy of `10demo` with a maximum spend of `5025stake`. However, since the price can change as more buyers and sellers interact with the bond, it is a good idea to set the maximum spend higher than the buy price. Let's go with `5100stake`. The account used is the `miguel` account \(created when running `make run_with_data`\).
 
 ```bash
-bondscli tx bonds buy 10demo 5100stake \
+peycli tx peyote buy 10demo 5100stake \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -245,7 +245,7 @@ bondscli tx bonds buy 10demo 5100stake \
   -y
 ```
 
-We can query the `miguel` account to confirm that the demo tokens have reached the account by using `bondscli q account $(bondscli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
+We can query the `miguel` account to confirm that the demo tokens have reached the account by using `peycli q account $(peycli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
 
 ```bash
 ...
@@ -267,7 +267,7 @@ Note how the account now has `10demo` and `99989975stake` \(a `10025stake` decre
 
 ## Burn to Withdraw
 
-Before performing a sell \(burn-to-withdraw\), we can query the current returns for selling the tokens. Say we want to sell `10demo`, we can perform the query `bondscli q bonds sell-return 10demo`, which gives:
+Before performing a sell \(burn-to-withdraw\), we can query the current returns for selling the tokens. Say we want to sell `10demo`, we can perform the query `peycli q peyote sell-return 10demo`, which gives:
 
 ```bash
 {
@@ -313,7 +313,7 @@ Note how in this case, both transaction \(0.5%\) and exit fees \(0.5%\) are incl
 We can perform a sell of `10demo` as shown below. The account used is the `miguel` account \(created when running `make run_with_data`\).
 
 ```bash
-bondscli tx bonds sell 10demo \
+peycli tx peyote sell 10demo \
   --from miguel \
   --keyring-backend=test \
   --broadcast-mode block \
@@ -321,7 +321,7 @@ bondscli tx bonds sell 10demo \
   -y
 ```
 
-We can query the `miguel` account to confirm that the demo tokens are no longer in the account by using `bondscli q account $(bondscli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
+We can query the `miguel` account to confirm that the demo tokens are no longer in the account by using `peycli q account $(peycli keys show miguel -a)`. A maximum of 2 blocks-worth of time might need to pass for the order in the batch to get processed.
 
 ```bash
 ...

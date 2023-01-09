@@ -1,6 +1,6 @@
 # Messages
 
-In this section we describe the processing of the bonds messages and the corresponding updates to the state. All created/modified state objects specified by each message are defined within the [state](./02_state.md) section.
+In this section we describe the processing of the peyote messages and the corresponding updates to the state. All created/modified state objects specified by each message are defined within the [state](./02_state.md) section.
 
 ## MsgCreateBond
 
@@ -128,7 +128,7 @@ Any address that holds tokens that a bond uses as its reserve can buy tokens fro
 
 A buy order is cancelled if the max prices are exceeded at any point during the lifespan of the batch. Otherwise, the buy order is fulfilled. The number of tokens requested are minted on the fly and any remaining tokens from the locked `MaxPrices`, minus the transaction fee specified by the bond, are returned to the user. The actual price in reserve tokens charged to the address is determined from the bond function, but is also influenced by any other buys and sells in the same orders batch, as a means to prevent front-running.
 
-In the case of `augmented_function` bonds, if the bond state is `HATCH`, a fixed price-per-token `p0` is used. This value (`p0`) is one of the function parameters required for this function type.
+In the case of `augmented_function` peyote, if the bond state is `HATCH`, a fixed price-per-token `p0` is used. This value (`p0`) is one of the function parameters required for this function type.
 
 | **Field** | **Type**         | **Description** |
 |:----------|:-----------------|:----------------|
@@ -160,7 +160,7 @@ This message adds the buy order to the current batch.
 
 ### MsgBuy for Swapper Function Bonds
 
-In general, but especially in the case of swapper function bonds, buying tokens from a bond can be seen as adding liquidity to that bond's token. To add liquidity to a swapper function, the current exchange rate is used to determine how much of each reserve token makes up the price. Otherwise, the price is an equal number of each of the reserve tokens according to the function type.
+In general, but especially in the case of swapper function peyote, buying tokens from a bond can be seen as adding liquidity to that bond's token. To add liquidity to a swapper function, the current exchange rate is used to determine how much of each reserve token makes up the price. Otherwise, the price is an equal number of each of the reserve tokens according to the function type.
 
 Moreover, in the case of the swapper function, the first `MsgBuy` performed is special and plays a very important role in specifying the price of the bond token. Since we have no price reference for the first buy in a swapper function, the `MaxPrices` specified are used as the actual price, with no fees charged.
 
@@ -172,7 +172,7 @@ Any address that holds previously bought bond tokens can, at any point, sell the
 
 Once the sell order is fulfilled, the number of tokens to be sold are burned on the fly and the address gets reserve tokens in return, minus the transaction and exit fees specified by the bond. The actual number of reserve tokens given to the address in return is determined from the bond function, but is also influenced by any other buys and sells in the same orders batch, as a means to prevent front-running. A sell order cannot be cancelled.
 
-In general, but especially in the case of swapper function bonds, buying tokens from a bond can be seen as adding liquidity for that bond. To add liquidity to a swapper function, the current exchange rate is used to determine how much of each reserve token makes up the price. Otherwise, the price is an equal number of each of the reserve tokens according to the function type.
+In general, but especially in the case of swapper function peyote, buying tokens from a bond can be seen as adding liquidity for that bond. To add liquidity to a swapper function, the current exchange rate is used to determine how much of each reserve token makes up the price. Otherwise, the price is an equal number of each of the reserve tokens according to the function type.
 
 | **Field** | **Type**         | **Description** |
 |:----------|:-----------------|:----------------|

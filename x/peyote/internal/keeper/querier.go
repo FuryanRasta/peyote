@@ -5,13 +5,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/ixoworld/bonds/x/bonds/client"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/client"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 const (
-	QueryBonds          = "bonds"
+	QueryBonds          = "peyote"
 	QueryBond           = "bond"
 	QueryBatch          = "batch"
 	QueryLastBatch      = "last_batch"
@@ -51,7 +51,7 @@ func NewQuerier(keeper Keeper) sdk.Querier {
 		case QueryParams:
 			return queryParams(ctx, keeper)
 		default:
-			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, "unknown bonds query endpoint")
+			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, "unknown peyote query endpoint")
 		}
 	}
 }
@@ -79,15 +79,15 @@ func zeroReserveTokensIfEmptyDec(reserveCoins sdk.DecCoins, bond types.Bond) sdk
 }
 
 func queryBonds(ctx sdk.Context, keeper Keeper) (res []byte, err error) {
-	var bondsList types.QueryBonds
+	var peyoteList types.QueryBonds
 	iterator := keeper.GetBondIterator(ctx)
 	for ; iterator.Valid(); iterator.Next() {
 		var bond types.Bond
 		keeper.cdc.MustUnmarshalBinaryBare(iterator.Value(), &bond)
-		bondsList = append(bondsList, bond.Token)
+		peyoteList = append(peyoteList, bond.Token)
 	}
 
-	bz, err2 := codec.MarshalJSONIndent(keeper.cdc, bondsList)
+	bz, err2 := codec.MarshalJSONIndent(keeper.cdc, peyoteList)
 	if err2 != nil {
 		panic("could not marshal result to JSON")
 	}

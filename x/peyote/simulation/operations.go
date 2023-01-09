@@ -9,8 +9,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/exported"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"github.com/ixoworld/bonds/x/bonds/internal/keeper"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/keeper"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"math/rand"
 )
@@ -488,7 +488,7 @@ func SimulateMsgSwap(ak auth.AccountKeeper, k keeper.Keeper) simulation.Operatio
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context,
 		accs []simulation.Account, chainID string) (opMsg simulation.OperationMsg, fOps []simulation.FutureOperation, err error) {
 
-		// Get swapper function bonds with some reserve
+		// Get swapper function peyote with some reserve
 		var filteredBonds []string
 		for _, sbToken := range swapperBonds {
 			if !k.GetReserveBalances(ctx, sbToken).IsZero() {

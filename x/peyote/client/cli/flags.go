@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	flag "github.com/spf13/pflag"
 )
 

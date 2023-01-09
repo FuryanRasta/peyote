@@ -10,12 +10,12 @@ var (
 	KeyReservedBondTokens = []byte("ReservedBondTokens")
 )
 
-// bonds parameters
+// peyote parameters
 type Params struct {
 	ReservedBondTokens []string `json:"reserved_bond_tokens" yaml:"reserved_bond_tokens"`
 }
 
-// ParamTable for bonds module.
+// ParamTable for peyote module.
 func ParamKeyTable() params.KeyTable {
 	return params.NewKeyTable().RegisterParamSet(&Params{})
 }
@@ -27,7 +27,7 @@ func NewParams(reservedBondTokens []string) Params {
 
 }
 
-// default bonds module parameters
+// default peyote module parameters
 func DefaultParams() Params {
 	return Params{
 		ReservedBondTokens: []string{}, // no reserved bond tokens

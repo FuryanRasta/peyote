@@ -22,7 +22,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/supply"
-	"github.com/ixoworld/bonds/x/bonds"
+	"github.com/warmage-sports/peyote/x/peyote"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
@@ -38,10 +38,10 @@ const appName = "Bonds"
 
 var (
 	// DefaultCLIHome represents the default home directory for the application CLI
-	DefaultCLIHome = os.ExpandEnv("$HOME/.bondscli")
+	DefaultCLIHome = os.ExpandEnv("$HOME/.peycli")
 
 	// DefaultNodeHome sets the folder where the application data and configuration will be stored
-	DefaultNodeHome = os.ExpandEnv("$HOME/.bondsd")
+	DefaultNodeHome = os.ExpandEnv("$HOME/.peyote")
 
 	// ModuleBasics is in charge of setting up basic module elements
 	ModuleBasics = module.NewBasicManager(
@@ -61,7 +61,7 @@ var (
 		supply.AppModuleBasic{},
 		evidence.AppModuleBasic{},
 
-		bonds.AppModuleBasic{},
+		peyote.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -73,9 +73,9 @@ var (
 		staking.NotBondedPoolName: {supply.Burner, supply.Staking},
 		gov.ModuleName:            {supply.Burner},
 
-		bonds.BondsMintBurnAccount:       {supply.Minter, supply.Burner},
-		bonds.BatchesIntermediaryAccount: nil,
-		bonds.BondsReserveAccount:        nil,
+		peyote.BondsMintBurnAccount:       {supply.Minter, supply.Burner},
+		peyote.BatchesIntermediaryAccount: nil,
+		peyote.BondsReserveAccount:        nil,
 	}
 
 	// module accounts that are allowed to receive tokens
@@ -129,7 +129,7 @@ type SimApp struct {
 	paramsKeeper   params.Keeper
 	evidenceKeeper evidence.Keeper
 
-	BondsKeeper bonds.Keeper
+	BondsKeeper peyote.Keeper
 
 	// Module Manager
 	mm *module.Manager
@@ -155,7 +155,7 @@ func NewSimApp(
 		supply.StoreKey, mint.StoreKey, distr.StoreKey, slashing.StoreKey,
 		gov.StoreKey, upgrade.StoreKey, params.StoreKey, evidence.StoreKey,
 
-		bonds.StoreKey,
+		peyote.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(params.TStoreKey)
 
@@ -179,7 +179,7 @@ func NewSimApp(
 	app.subspaces[gov.ModuleName] = app.paramsKeeper.Subspace(gov.DefaultParamspace).WithKeyTable(gov.ParamKeyTable())
 	app.subspaces[evidence.ModuleName] = app.paramsKeeper.Subspace(evidence.DefaultParamspace)
 	app.subspaces[crisis.ModuleName] = app.paramsKeeper.Subspace(crisis.DefaultParamspace)
-	app.subspaces[bonds.ModuleName] = app.paramsKeeper.Subspace(bonds.DefaultParamspace)
+	app.subspaces[peyote.ModuleName] = app.paramsKeeper.Subspace(peyote.DefaultParamspace)
 
 	// Add keepers
 	app.AccountKeeper = auth.NewAccountKeeper(
@@ -232,13 +232,13 @@ func NewSimApp(
 		staking.NewMultiStakingHooks(app.distrKeeper.Hooks(), app.slashingKeeper.Hooks()),
 	)
 
-	app.BondsKeeper = bonds.NewKeeper(
+	app.BondsKeeper = peyote.NewKeeper(
 		app.BankKeeper,
 		app.SupplyKeeper,
 		app.AccountKeeper,
 		app.StakingKeeper,
-		keys[bonds.StoreKey],
-		app.subspaces[bonds.ModuleName],
+		keys[peyote.StoreKey],
+		app.subspaces[peyote.ModuleName],
 		app.cdc,
 	)
 
@@ -257,7 +257,7 @@ func NewSimApp(
 		staking.NewAppModule(app.StakingKeeper, app.AccountKeeper, app.SupplyKeeper),
 		upgrade.NewAppModule(app.upgradeKeeper),
 		evidence.NewAppModule(app.evidenceKeeper),
-		bonds.NewAppModule(app.BondsKeeper, app.AccountKeeper),
+		peyote.NewAppModule(app.BondsKeeper, app.AccountKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -266,16 +266,16 @@ func NewSimApp(
 	app.mm.SetOrderBeginBlockers(
 		upgrade.ModuleName, mint.ModuleName, distr.ModuleName, slashing.ModuleName,
 		evidence.ModuleName, staking.ModuleName,
-		bonds.ModuleName,
+		peyote.ModuleName,
 	)
-	app.mm.SetOrderEndBlockers(crisis.ModuleName, gov.ModuleName, staking.ModuleName, bonds.ModuleName)
+	app.mm.SetOrderEndBlockers(crisis.ModuleName, gov.ModuleName, staking.ModuleName, peyote.ModuleName)
 
 	// NOTE: The genutils module must occur after staking so that pools are
 	// properly initialized with tokens from genesis accounts.
 	app.mm.SetOrderInitGenesis(
 		auth.ModuleName, distr.ModuleName, staking.ModuleName, bank.ModuleName,
 		slashing.ModuleName, gov.ModuleName, evidence.ModuleName, mint.ModuleName,
-		bonds.ModuleName,
+		peyote.ModuleName,
 		supply.ModuleName, crisis.ModuleName, genutil.ModuleName,
 	)
 
@@ -289,7 +289,7 @@ func NewSimApp(
 	app.sm = module.NewSimulationManager(
 		auth.NewAppModule(app.AccountKeeper),
 		bank.NewAppModule(app.BankKeeper, app.AccountKeeper),
-		bonds.NewAppModule(app.BondsKeeper, app.AccountKeeper),
+		peyote.NewAppModule(app.BondsKeeper, app.AccountKeeper),
 		supply.NewAppModule(app.SupplyKeeper, app.AccountKeeper),
 		gov.NewAppModule(app.govKeeper, app.AccountKeeper, app.SupplyKeeper),
 		distr.NewAppModule(app.distrKeeper, app.AccountKeeper, app.SupplyKeeper, app.StakingKeeper),

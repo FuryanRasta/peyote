@@ -7,18 +7,18 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/exported"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 )
 
 // RegisterInvariants registers all supply invariants
 func RegisterInvariants(ir sdk.InvariantRegistry, k Keeper) {
-	ir.RegisterRoute(types.ModuleName, "bonds-supply",
+	ir.RegisterRoute(types.ModuleName, "peyote-supply",
 		SupplyInvariant(k))
-	ir.RegisterRoute(types.ModuleName, "bonds-reserve",
+	ir.RegisterRoute(types.ModuleName, "peyote-reserve",
 		ReserveInvariant(k))
 }
 
-// AllInvariants runs all invariants of the bonds module.
+// AllInvariants runs all invariants of the peyote module.
 func AllInvariants(k Keeper) sdk.Invariant {
 	return func(ctx sdk.Context) (string, bool) {
 		res, stop := SupplyInvariant(k)(ctx)

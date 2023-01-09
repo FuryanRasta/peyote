@@ -3,8 +3,8 @@ package cli
 import (
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/ixoworld/bonds/x/bonds/internal/keeper"
-	"github.com/ixoworld/bonds/x/bonds/internal/types"
+	"github.com/warmage-sports/peyote/x/peyote/internal/keeper"
+	"github.com/warmage-sports/peyote/x/peyote/internal/types"
 	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client/context"
@@ -15,7 +15,7 @@ import (
 )
 
 func GetQueryCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
-	bondsQueryCmd := &cobra.Command{
+	peyoteQueryCmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Bonds querying subcommands",
 		DisableFlagParsing:         true,
@@ -23,7 +23,7 @@ func GetQueryCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	bondsQueryCmd.AddCommand(flags.GetCommands(
+	peyoteQueryCmd.AddCommand(flags.GetCommands(
 		GetCmdBonds(storeKey, cdc),
 		GetCmdBond(storeKey, cdc),
 		GetCmdBatch(storeKey, cdc),
@@ -37,19 +37,19 @@ func GetQueryCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
 		GetCmdQueryParams(cdc),
 	)...)
 
-	return bondsQueryCmd
+	return peyoteQueryCmd
 }
 
 func GetCmdBonds(queryRoute string, cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "bonds-list",
-		Short: "List of all bonds",
+		Use:   "peyote-list",
+		Short: "List of all peyote",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc)
 
 			res, _, err := cliCtx.QueryWithData(
-				fmt.Sprintf("custom/%s/bonds",
+				fmt.Sprintf("custom/%s/peyote",
 					queryRoute), nil)
 			if err != nil {
 				fmt.Printf("%s", err.Error())
@@ -314,15 +314,15 @@ func GetCmdSwapReturn(queryRoute string, cdc *codec.Codec) *cobra.Command {
 	}
 }
 
-// GetCmdQueryParams implements a command to fetch bonds parameters.
+// GetCmdQueryParams implements a command to fetch peyote parameters.
 func GetCmdQueryParams(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
 		Use:   "params",
-		Short: "Query the current bonds parameters",
+		Short: "Query the current peyote parameters",
 		Args:  cobra.NoArgs,
-		Long: strings.TrimSpace(`Query genesis parameters for the bonds module:
+		Long: strings.TrimSpace(`Query genesis parameters for the peyote module:
 
-$ <appcli> query bonds params
+$ <appcli> query peyote params
 `),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc)
